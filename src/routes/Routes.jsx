@@ -4,6 +4,8 @@ import Home from "../pages/Home/Home/Home";
 import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 import SingleRoom from "../components/SingleRoom/SingleRoom";
+import PrivateRote from "../PrivateRote/PrivateRote";
+import About from "../pages/About/About";
 
 const route = createBrowserRouter([
   {
@@ -23,10 +25,16 @@ const route = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "/about",
+        element: <About />,
+      },
+      {
         path: "/room/:id",
-        element: <SingleRoom />,
-        loader: ({ params }) =>
-          fetch(`http://localhost:5000/room/${params.id}`),
+        element: (
+          <PrivateRote>
+            <SingleRoom />
+          </PrivateRote>
+        ),
       },
     ],
   },

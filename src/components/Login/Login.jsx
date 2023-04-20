@@ -45,7 +45,7 @@ const Login = () => {
             </div>
             <div>
               <h2>
-                New to hotel bear plus?{" "}
+                New to hotel bear plus ?{" "}
                 <Link to="/register" className="link">
                   Register
                 </Link>

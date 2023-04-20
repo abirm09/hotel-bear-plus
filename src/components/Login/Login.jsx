@@ -1,7 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
+  const { logInUserWIthEmail, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/");
+  //     return;
+  //   }
+  // }, [user]);
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
+  console.log(from);
+  const handleLogIn = event => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    logInUserWIthEmail(email, password)
+      .then(result => {
+        navigate(from, { replace: true });
+        console.log(result.user);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -14,13 +40,14 @@ const Login = () => {
           </p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <div className="card-body">
+          <form onSubmit={handleLogIn} className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="email"
                 className="input input-bordered"
               />
@@ -31,6 +58,7 @@ const Login = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
               />
@@ -51,7 +79,7 @@ const Login = () => {
                 </Link>
               </h2>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
